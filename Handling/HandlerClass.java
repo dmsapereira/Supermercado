@@ -3,9 +3,18 @@ package Handling;
 import Iterable.*;
 
 public class HandlerClass implements Handler {
-    private ArrayClass<Cart> carts;
-    private ArrayClass<Item> items;
+    /**
+     * Array de todos os carrinhos
+     */
+    private Array<Cart> carts;
+    /**
+     * Array de todos os artigos
+     */
+    private Array<Item> items;
 
+    /**
+     * Construtor
+     */
     public HandlerClass() {
         this.carts = new ArrayClass<Cart>();
         this.items = new ArrayClass<Item>();
@@ -32,28 +41,73 @@ public class HandlerClass implements Handler {
         return error;
     }
 
-    private int searchCartIndex(String name) {
-        int i = 0;
-        Iterator<Cart> itera = carts.iterator();
-        while (itera.hasNext()) {
-            if (itera.next().getName().equals(name)) {
-                return i;
-            }
-            i++;
-        }
-        return -1;
+    @Override
+    public int depositItem(String itemName, String cartName) {
+        int cartIndex = searchCartIndex(cartName);
+        int itemIndex = searchItemIndex(itemName);
+        int error = 0;
+        if (cartIndex == -1)
+            error = 1;
+        else if (itemIndex == -1)
+            error = 2;
+        else if ((carts.get(cartIndex).getVolume() - items.get(itemIndex).getVolume()) < 0)
+            error = 3;
+        else
+            carts.get(cartIndex).addItem(items.get(itemIndex));
+        return error;
     }
 
+    @Override
+    public int removeItem(String itemName, String cartName) {
+        int cartIndex = searchCartIndex(cartName);
+        int error = 0;
+        if (cartIndex == -1)
+            error = 1;
+        else if (carts.get(cartIndex).getItemIndex(itemName) == -1)
+            error = 2;
+        else
+            carts.get(cartIndex).removeItem(itemName);
+        return error;
+    }
+
+    @Override
+    public Iterator<Item> itemIterator(String cartName) {
+        if (searchCartIndex(cartName) == -1)
+            return null;
+        else
+            return carts.get(searchCartIndex(cartName)).getItems();
+    }
+
+    @Override
+    public int pay(String cartName) {
+        int error;
+        int cartIndex = carts.getIndex(cartName);
+        if (cartIndex == -1)
+            error = -1;
+        else
+            error = carts.get(cartIndex).pay();
+        return error;
+
+    }
+
+    /**
+     * Devolve o indice do carrinho com o nome indicado
+     *
+     * @param name nome do carrinho a procurar
+     * @return indice do carrinho. -1 se nao existe
+     */
+    private int searchCartIndex(String name) {
+        return carts.getIndex(name);
+    }
+
+    /**
+     * Devolve o indice do artigo com o nome indicado
+     *
+     * @param name nome do artigo a procurar
+     * @return indice do artigo. -1 se nao existe
+     */
     private int searchItemIndex(String name) {
-        int i = 0;
-        Iterator<Item> itera = items.iterator();
-        while (itera.hasNext()) {
-            if (itera.next().getName().equals(name)) {
-                return i;
-            }
-            i++;
-        }
-        return -1;
+        return items.getIndex(name);
     }
 
 }

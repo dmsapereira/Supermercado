@@ -73,4 +73,11 @@ public interface Array<E> {
      */
     int size();
 
+    /**
+     * Devolve o indice do objeto com o identificador especificado
+     * @param name identificador a procurar
+     * @return indice do objeto. -1 se nao existir
+     */
+    int getIndex(String name);
+
 }

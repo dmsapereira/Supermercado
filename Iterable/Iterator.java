@@ -9,7 +9,7 @@ package Iterable;
 
 		/**
 		 * Verifica se existem mais elementos a iterar.
-		 * @return <code>true</code> se houver mais elementos a iterar, 
+		 * @return <code>true</code> se houver mais elementos a iterar,
 		 * ou <code>false</code> caso contrario.
 		 */
 		boolean hasNext();
@@ -21,6 +21,3 @@ package Iterable;
 		 */
 		E next();
 	}
-
-
-}
