@@ -3,6 +3,9 @@ import java.util.*;
 import Handling.*;
 import Iterable.Iterator;
 
+/**
+*@author 52890: David Pereira, 52886: Bruno Ramos
+*/
 public class Main {
     private static final String CARRINHO_ADD = "Carrinho criado com sucesso.";
     private static final String CARRINHO_FALHA = "Carrinho existente!";
